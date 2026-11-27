@@ -1,7 +1,7 @@
 // Edit this file to personalize the invitation. Keep dates in ISO format.
 export const wedding = {
-  groom: { name: 'Groom Name', role: 'The Groom', description: 'A short introduction about the groom can go here.', image: 'https://images.unsplash.com/photo-1597157639073-69284dc0fdaf?auto=format&fit=crop&w=900&q=85' },
-  bride: { name: 'Bride Name', role: 'The Bride', description: 'A short introduction about the bride can go here.', image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=85' },
+  groom: { name: 'Shivani', role: 'The Groom', description: 'A short introduction about the groom can go here.', image: 'https://images.unsplash.com/photo-1597157639073-69284dc0fdaf?auto=format&fit=crop&w=900&q=85' },
+  bride: { name: 'Abhishek', role: 'The Bride', description: 'A short introduction about the bride can go here.', image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=85' },
   date: '2027-01-25T18:00:00+05:30', // Local wedding date/time with timezone
   dateLabel: '25 January 2027',
   venue: 'Your Wedding Venue',
