@@ -28,36 +28,42 @@ function calendarUrl() {
 
 function TempleDoors({ onEnter }) {
   const [opened, setOpened] = useState(false);
+  const [ganeshVisible, setGaneshVisible] = useState(false);
+  const [blurReveal, setBlurReveal] = useState(false);
   const enter = () => {
+    if (opened) return;
     setOpened(true);
-    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1850;
-    window.setTimeout(onEnter, duration);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) { onEnter(); return; }
+    // Doors and flower veil clear first; Shri Ganesh appears as the blessing.
+    window.setTimeout(() => setGaneshVisible(true), 1900);
+    window.setTimeout(() => setBlurReveal(true), 3900);
+    window.setTimeout(onEnter, 5200);
   };
-  return <div className={`intro ${opened ? 'intro-open' : ''}`}>
+  return <div className={`intro ${opened ? 'intro-open' : ''} ${ganeshVisible ? 'ganesh-visible' : ''} ${blurReveal ? 'blur-reveal' : ''}`}>
     <div className="intro-glow" /><div className="intro-rays" /><div className="intro-mandala">✺</div>
     <div className="flower-veil" aria-hidden="true">
       {Array.from({length:160},(_,i)=>{
-        const x=(i*47+11)%100;
-        const y=(i*67+19)%100;
+        const x=(i*47+11)%100; const y=(i*67+19)%100;
         const colors=['#e9b5c3','#f8dfd7','#c98791','#fff0e4','#a85f75','#e6b889'];
         return <i key={`petal-${i}`} style={{left:`${x}%`,top:`${y}%`,'--dx':`${(x-50)*1.8}vw`,'--dy':`${(y-50)*1.8}vh`,'--spin':`${(i*137)%900-450}deg`,'--delay':`${(i%12)*18}ms`,'--petal-color':colors[i%colors.length]}} />;
       })}
       {Array.from({length:30},(_,i)=>{
-        const x=(i*61+23)%100;
-        const y=(i*43+7)%100;
+        const x=(i*61+23)%100; const y=(i*43+7)%100;
         const colors=['#f0c4ca','#fff0e4','#d29a8e','#d98fa5','#e7bb83'];
         return <span key={`flower-${i}`} style={{left:`${x}%`,top:`${y}%`,'--dx':`${(x-50)*1.55}vw`,'--dy':`${(y-50)*1.55}vh`,'--spin':`${i%2 ? 300 : -300}deg`,'--delay':`${(i%7)*32}ms`,'--flower-color':colors[i%colors.length]}} />;
       })}
       {Array.from({length:54},(_,i)=>{
-        const x=(i*29+17)%100;
-        const y=(i*41+13)%100;
+        const x=(i*29+17)%100; const y=(i*41+13)%100;
         return <b className="flower-sparkle" key={`sparkle-${i}`} style={{left:`${x}%`,top:`${y}%`,'--dx':`${(x-50)*1.3}vw`,'--dy':`${(y-50)*1.3}vh`,'--delay':`${(i%9)*26}ms`}} />;
       })}
+    </div>
+    <div className="ganesh-blessing" aria-hidden="true">
+      <div className="ganesh-aura"><span className="ganesh-symbol">ॐ</span><span className="ganesh-name">श्री गणेशाय नमः</span></div>
     </div>
     <div className="intro-content"><div className="ganesh-mark">ॐ</div><p className="eyebrow">A CELEBRATION OF LOVE & TOGETHERNESS</p><h1>शुभ विवाह</h1><p className="intro-sub">A divine golden era of love, blessings & togetherness.</p><button className="gold-button" onClick={enter}> <Sparkles size={16}/> Open Invitation <ChevronDown size={16}/></button><span className="intro-hint">Tap to open the invitation</span></div>
   </div>;
 }
-
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
