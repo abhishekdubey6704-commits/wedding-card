@@ -209,3 +209,14 @@ html,body{background:#fff8f5;color:var(--ink)}
 .film-error code{background:#f8e9e7}
 .lightbox button{color:#fff3ec}
 @media(max-width:650px){.navbar nav{background:#fff8f5}}
+
+/* Shri Ganesh blessing after the doors open, followed by a soft cinematic blur. */
+.ganesh-blessing{position:absolute;z-index:7;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transform:scale(.78);filter:blur(18px);transition:opacity 1.25s ease,transform 1.6s cubic-bezier(.16,.75,.2,1),filter 1.25s ease}
+.ganesh-visible .ganesh-blessing{opacity:1;transform:scale(1);filter:blur(0)}
+.ganesh-aura{width:min(76vw,440px);aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#f8e4c5 0%,#edc8a055 30%,transparent 70%);border:1px solid #f6ddc877;box-shadow:0 0 55px #f4d7ba44,inset 0 0 50px #f4d7ba33;color:#fff3df}
+.ganesh-symbol{font-family:'Noto Serif Devanagari',serif;font-size:clamp(110px,25vw,220px);line-height:1;color:#f7e5c7;text-shadow:0 0 22px #e7bda277,0 5px 30px #27101a66}
+.ganesh-name{font-family:'Noto Serif Devanagari',serif;font-size:clamp(17px,3vw,26px);letter-spacing:2px;color:#f7e0c9;text-shadow:0 2px 18px #31101e}
+.blur-reveal .ganesh-blessing{opacity:0;filter:blur(22px);transform:scale(1.08);transition:opacity 1.3s ease,filter 1.3s ease,transform 1.3s ease}
+.blur-reveal .intro-glow{opacity:.9;filter:blur(130px);transform:scale(2)}
+.blur-reveal .intro-content{opacity:0;filter:blur(20px)}
+@media(prefers-reduced-motion:reduce){.ganesh-blessing{transition:none}.ganesh-visible .ganesh-blessing{filter:none;transform:none}}
