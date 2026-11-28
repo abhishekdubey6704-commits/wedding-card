@@ -5,7 +5,7 @@ export const wedding = {
   date: '2027-01-25T18:00:00+05:30', dateLabel: '25 January 2027',
   venue: 'Ashoknagar', address: 'Ashoknagar, Madhya Pradesh, India',
   mapUrl: 'https://maps.google.com/?q=Ashoknagar+Madhya+Pradesh',
-  calendarTitle: 'Abhishek & Shivi — Wedding Celebration', calendarDescription: 'Join us to celebrate the wedding of Abhishek and Shivi.', calendarLocation: 'Ashoknagar, Madhya Pradesh, India'
+  calendarTitle: 'Abhishek & Shivi — Wedding Celebration', calendarDescription: 'Join us to celebrate the wedding of Abhishek and Shivi.', calendarLocation: 'Ashoknagar, Madhya Pradesh, India',
   youtubeVideoId: 'x9l2VRJ5-3k', preWeddingVideoId: '',
   events: [
     { name: 'Haldi', date: '25 January 2027', time: 'Time to be announced', venue: 'Ashoknagar', note: 'A joyful celebration of sunshine, turmeric and blessings.' },
