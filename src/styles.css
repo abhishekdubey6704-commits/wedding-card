@@ -247,3 +247,20 @@ html,body{background:#fff8f5;color:var(--ink)}
 .health-section .section-heading p{font-size:15px}
 @media(max-width:650px){.rsvp-card{padding:20px}.rsvp-card button{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Phase 1 correction: real, visible twin temple doors in the intro. */
+.temple-doors{position:absolute;inset:0;z-index:4;display:flex;pointer-events:none;perspective:1600px;}
+.temple-doors .door{position:relative;width:50%;height:100%;top:auto;bottom:auto;overflow:hidden;border:clamp(7px,1.2vw,15px) solid #c79a62;background:linear-gradient(110deg,#512b3c,#8b4659 45%,#603047);box-shadow:inset 0 0 0 3px #f0d1a1,inset 0 0 0 12px #5d3045,0 0 30px #24121c88;transition:transform 1.65s cubic-bezier(.72,0,.18,1);}
+.temple-doors .door-left{transform-origin:left center;}
+.temple-doors .door-right{transform-origin:right center;}
+.temple-doors .door-pattern{position:absolute;inset:5%;border:2px solid #e4c18a;outline:2px solid #e4c18a;outline-offset:-14px;border-radius:48% 48% 5% 5%;background:radial-gradient(ellipse at 50% 38%,#f2d5a71a,transparent 62%),repeating-radial-gradient(ellipse at center,transparent 0 22px,#e5c18a24 23px 25px,transparent 26px 42px);}
+.temple-doors .door-pattern:after{content:"";position:absolute;inset:12% 9%;border:1px solid #e4c18a88;border-radius:45% 45% 3% 3%;}
+.door-crest{position:absolute;top:16%;left:50%;transform:translateX(-50%);font-family:'Noto Serif Devanagari',serif;font-size:clamp(45px,8vw,100px);color:#f2d7a8;text-shadow:0 0 18px #e8bd7a55;}
+.door-carving{position:absolute;top:42%;left:50%;transform:translateX(-50%);font-size:clamp(60px,12vw,145px);color:#d9b27d66;}
+.temple-doors .door-handle{position:absolute;top:50%;right:7%;width:clamp(12px,1.5vw,19px);height:clamp(12px,1.5vw,19px);border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff1c5,#b78343);box-shadow:0 0 0 5px #7a4c35,0 0 20px #eac47a66;}
+.temple-doors .door-right .door-handle{left:7%;right:auto;}
+.intro-open .temple-doors .door-left{transform:perspective(1400px) rotateY(-115deg);}
+.intro-open .temple-doors .door-right{transform:perspective(1400px) rotateY(115deg);}
+.temple-doors .door{z-index:auto;pointer-events:none;}
+@media(max-width:650px){.temple-doors .door-pattern{inset:4%;outline-offset:-9px}.door-crest{font-size:clamp(40px,13vw,70px)}.door-carving{font-size:clamp(50px,18vw,90px)}}
+@media(prefers-reduced-motion:reduce){.temple-doors .door{transition:none}.intro-open .temple-doors .door-left,.intro-open .temple-doors .door-right{transform:none;opacity:0}}
