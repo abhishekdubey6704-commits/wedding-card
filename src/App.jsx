@@ -181,14 +181,14 @@ function RSVPSection() {
   async function submit(e) {
     e.preventDefault();
     if (!wedding.apiBaseUrl) { setStatus('RSVP is not connected yet. Please contact the hosts directly.'); return; }
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(formElement);
     const payload = { name: String(form.get('name')||'').trim(), email: String(form.get('email')||'').trim(), guests: String(form.get('guests')||'1'), attendance, note: String(form.get('note')||'').trim(), event: 'Wedding Celebration' };
     if (!payload.name) { setStatus('Please enter your name.'); return; }
     setBusy(true); setStatus('');
     try {
       const response = await fetch(`${wedding.apiBaseUrl.replace(/\/$/, '')}/api/rsvp`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
       if (!response.ok) throw new Error('Request failed');
-      setStatus('Thank you! Your RSVP has been received.'); e.currentTarget.reset();
+      setStatus('Thank you! Your RSVP has been received.'); formElement.reset(); setAttendance('yes');
     } catch { setStatus('We could not submit your RSVP. Please try again or contact the hosts.'); }
     finally { setBusy(false); }
   }
