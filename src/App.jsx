@@ -42,6 +42,7 @@ function TempleDoors({ onEnter }) {
   };
   return <div className={`intro ${opened ? 'intro-open' : ''} ${ganeshVisible ? 'ganesh-visible' : ''} ${blurReveal ? 'blur-reveal' : ''}`}>
     <div className="intro-glow" /><div className="intro-rays" /><div className="intro-mandala">✺</div>
+    <div className="temple-doors" aria-hidden="true"><div className="door door-left"><div className="door-pattern"><span className="door-crest">ॐ</span><span className="door-carving">❀</span></div><span className="door-handle"/></div><div className="door door-right"><div className="door-pattern"><span className="door-crest">ॐ</span><span className="door-carving">❀</span></div><span className="door-handle"/></div></div>
     <div className="flower-veil" aria-hidden="true">
       {Array.from({length:160},(_,i)=>{
         const x=(i*47+11)%100; const y=(i*67+19)%100;
