@@ -93,7 +93,7 @@ function VFXLayer() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
-    const targets = document.querySelectorAll('.section-heading, .person-card, .event-card, .gallery-photo, .blessing, .health-section, .rsvp-card, .quote-section, .film-section, .film-frame');
+    const targets = document.querySelectorAll('.section-heading, .person-card, .event-card, .gallery-photo, .blessing, .quote-section, .film-section, .film-frame');
     targets.forEach(el => el.classList.add('vfx-reveal'));
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -141,30 +141,6 @@ function PreWeddingFilm() {
   </section>;
 }
 
-function HealthNote() {
-  return <section className="health-section section" id="health"><div className="health-icon"><Heart/></div><div><span className="section-kicker">A NOTE FOR OUR GUESTS</span><h2>With care & kindness</h2><p>{wedding.healthProtocol}</p></div></section>;
-}
-
-function RSVP() {
-  const [status,setStatus] = useState('');
-  const [busy,setBusy] = useState(false);
-  const submit = async (e) => {
-    e.preventDefault(); setStatus('');
-    if(!wedding.apiBaseUrl){setStatus('RSVP is not connected yet. Please contact the hosts directly.');return;}
-    const form=e.currentTarget; const data=Object.fromEntries(new FormData(form).entries()); setBusy(true);
-    try { const base=wedding.apiBaseUrl.replace(/\/$/,''); const response=await fetch(base+'/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-      if(!response.ok) throw new Error('Request failed'); setStatus('Thank you! Your RSVP has been received.');form.reset();
-    } catch {setStatus('We could not submit your RSVP right now. Please try again or contact the hosts.');} finally {setBusy(false);}
-  };
-  return <section className="rsvp-section section" id="rsvp"><div className="rsvp-card"><div className="section-heading"><span className="section-kicker">KINDLY RESPOND</span><h2>RSVP</h2><p>Let us know if you will be joining us.</p></div><form className="rsvp-form" onSubmit={submit}>
-    <label>Your name<input name="name" required maxLength="120" autoComplete="name"/></label>
-    <div className="form-row"><label>Email <span className="optional">(optional)</span><input type="email" name="email" autoComplete="email"/></label><label>Guests<select name="guests" required defaultValue="1"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select></label></div>
-    <label>Will you attend?<select name="attendance" required defaultValue="yes"><option value="yes">Joyfully accept</option><option value="no">Regretfully decline</option></select></label>
-    <label>Message <span className="optional">(optional)</span><textarea name="note" rows="3" maxLength="500"/></label>
-    <button className="primary-button" type="submit" disabled={busy}>{busy?'Sending…':'Send RSVP'}</button>{status&&<p className="form-message" role="status">{status}</p>}
-  </form></div></section>;
-}
-
 function Countdown() {
   const c = useCountdown(wedding.date);
   const elapsedDays = Math.floor((Date.now() - new Date(wedding.date).getTime()) / 86400000);
@@ -174,36 +150,11 @@ function Countdown() {
   </section>;
 }
 
-function RSVPSection() {
-  const [status, setStatus] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [attendance, setAttendance] = useState('yes');
-  async function submit(e) {
-    e.preventDefault();
-    if (!wedding.apiBaseUrl) { setStatus('RSVP is not connected yet. Please contact the hosts directly.'); return; }
-    const form = new FormData(formElement);
-    const payload = { name: String(form.get('name')||'').trim(), email: String(form.get('email')||'').trim(), guests: String(form.get('guests')||'1'), attendance, note: String(form.get('note')||'').trim(), event: 'Wedding Celebration' };
-    if (!payload.name) { setStatus('Please enter your name.'); return; }
-    setBusy(true); setStatus('');
-    try {
-      const response = await fetch(`${wedding.apiBaseUrl.replace(/\/$/, '')}/api/rsvp`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-      if (!response.ok) throw new Error('Request failed');
-      setStatus('Thank you! Your RSVP has been received.'); formElement.reset(); setAttendance('yes');
-    } catch { setStatus('We could not submit your RSVP. Please try again or contact the hosts.'); }
-    finally { setBusy(false); }
-  }
-  return <section className="rsvp-section section" id="rsvp"><div className="section-heading"><span className="section-kicker">LET US KNOW</span><h2>RSVP</h2><p>We would love to celebrate with you. Kindly share your response.</p></div><form className="rsvp-card" onSubmit={submit}><label>Name <input name="name" required maxLength="120" autoComplete="name" placeholder="Your name"/></label><label>Email <input name="email" type="email" maxLength="180" autoComplete="email" placeholder="Email (optional)"/></label><label>Number of guests <select name="guests" defaultValue="1"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label><fieldset><legend>Will you attend?</legend><label className="radio-label"><input type="radio" name="attendance" value="yes" checked={attendance==='yes'} onChange={()=>setAttendance('yes')}/> Joyfully accept</label><label className="radio-label"><input type="radio" name="attendance" value="no" checked={attendance==='no'} onChange={()=>setAttendance('no')}/> Regretfully decline</label></fieldset><label>Message <textarea name="note" rows="3" maxLength="500" placeholder="A message for the couple (optional)"/></label><button className="primary-button" type="submit" disabled={busy}>{busy?'Sending…':'Send RSVP'}</button>{status && <p className="rsvp-status" role="status">{status}</p>}</form></section>;
-}
-
-function HealthProtocol() {
-  return <section className="health-section section" id="guest-note"><div className="section-heading"><span className="section-kicker">A KIND NOTE</span><h2>Guest Guidance</h2><p>{wedding.healthProtocol}</p></div></section>;
-}
-
 export default function App() {
   const [entered, setEntered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activePhoto, setActivePhoto] = useState(null);
-  const nav = [['Our Story','#couple'],...(getYouTubeVideoId(wedding.preWeddingVideoId) ? [['Our Film','#film']] : []),['Celebrations','#events'],['Gallery','#gallery'],['RSVP','#rsvp'],['RSVP','#rsvp']];
+  const nav = [['Our Story','#couple'],...(getYouTubeVideoId(wedding.preWeddingVideoId) ? [['Our Film','#film']] : []),['Celebrations','#events'],['Gallery','#gallery']];
   return <>
     <VFXLayer/>
     {!entered && <TempleDoors onEnter={() => setEntered(true)}/>}
@@ -216,7 +167,7 @@ export default function App() {
         <section className="couple-section section" id="couple"><div className="section-heading"><span className="section-kicker">TWO HEARTS, ONE JOURNEY</span><h2>Meet the Couple</h2><p>Two stories, two families, and one beautiful beginning.</p></div><div className="couple-grid">{[wedding.groom,wedding.bride].map((person,i)=><article className="person-card" key={person.role}><div className="person-image-wrap"><img src={person.image} alt={person.role}/><div className="petal-disintegration" aria-hidden="true">{Array.from({length:30},(_,j)=><i key={j} style={{'--drift-x':`${((j*37)%260)-130}px`,'--drift-y':`${((j*53)%210)-105}px`,'--spin':`${j*83}deg`,'--delay':`${(j%10)*28}ms`}} />)}</div><span className="image-index">0{i+1}</span></div><p className="person-role">{person.role}</p><h3>{person.name}</h3><p className="person-description">{person.description}</p></article>)}</div><p className="couple-verse">“सखा सप्तपदा भव।” <span>— May we be companions for all seven steps and beyond.</span></p></section>
         <section className="events-section section" id="events"><div className="section-heading"><span className="section-kicker">JOIN THE CELEBRATION</span><h2>Wedding Festivities</h2><p>Every ritual, every smile, every moment — made more special with you.</p></div><div className="events-list">{wedding.events.map((event,i)=><article className="event-card" key={event.name}><div className="event-number">0{i+1}</div><div className="event-info"><span className="event-date">{event.date}</span><h3>{event.name}</h3><p>{event.note}</p><div className="event-meta"><span><Clock3 size={14}/>{event.time}</span><span><MapPin size={14}/>{event.venue}</span></div></div><div className="event-flower">✿</div></article>)}</div></section>
         <section className="quote-section"><div className="quote-mark">“</div><p className="sanskrit">{shlokas[1].sanskrit}</p><p className="quote-english">{shlokas[1].english}</p><span className="quote-divider">✦</span><p className="quote-hindi">{shlokas[1].hindi}</p></section>
-        <PreWeddingFilm/>\n        <HealthProtocol/>\n        <RSVPSection/>\n        <HealthNote/>\n        <RSVP/>
+        <PreWeddingFilm/>
         <section className="gallery-section section" id="gallery"><div className="section-heading"><span className="section-kicker">LITTLE MOMENTS, FOREVER MEMORIES</span><h2>Our Gallery</h2><p>A glimpse of the memories we are making.</p></div><div className="gallery-grid">{wedding.gallery.map((src,i)=><button className={`gallery-photo photo-${i+1}`} key={src} onClick={()=>setActivePhoto(src)} aria-label={`Open gallery photo ${i+1}`}><img src={src} alt={`Wedding gallery ${i+1}`} loading="lazy"/><span><Camera size={17}/></span></button>)}</div></section>
         <section className="closing-section"><span className="closing-ornament">✺</span><p className="sanskrit">{shlokas[2].sanskrit}</p><h2>With love, and a lifetime of gratitude.</h2><p>We look forward to celebrating with you.</p><div className="closing-names">{wedding.groom.name} <span>&</span> {wedding.bride.name}</div><a className="text-link" href={wedding.mapUrl} target="_blank" rel="noreferrer"><MapPin size={16}/> Get directions</a></section>
       </main>
